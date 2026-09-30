@@ -4,7 +4,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_AUTHOR } from '../consts';
 
 const posts = (await getCollection('blog'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -16,6 +16,12 @@ const posts = (await getCollection('blog'))
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
 			body {
 				background-color: #282a36;
 				color: #f8f8f2;
@@ -24,49 +30,56 @@ const posts = (await getCollection('blog'))
 			}
 
 			main {
-				max-width: 700px;
+				max-width: 1200px;
 				margin: 0 auto;
-				padding: 4rem 2rem;
+				padding: 3rem 2rem;
+				display: grid;
+				grid-template-columns: 1fr 300px;
+				gap: 4rem;
+			}
+
+			/* Content Section */
+			.content {
+				max-width: 700px;
 			}
 
 			/* Hero Section */
 			.hero {
-				margin-bottom: 6rem;
-				padding-bottom: 4rem;
+				margin-bottom: 4rem;
+				padding-bottom: 3rem;
 				border-bottom: 1px solid #44475a;
 			}
 
 			.hero h1 {
-				font-family: Georgia, 'Times New Roman', serif;
-				font-size: 3.5rem;
+				font-family: 'Georgia', 'Times New Roman', serif;
+				font-size: 3rem;
 				font-weight: 700;
-				line-height: 1.1;
-				margin: 0 0 1rem 0;
+				line-height: 1.15;
+				margin-bottom: 1.5rem;
 				color: #f8f8f2;
 				letter-spacing: -0.02em;
 			}
 
 			.hero p {
-				font-size: 1.25rem;
+				font-size: 1.1rem;
 				color: #b0b0b0;
-				margin: 0 0 2rem 0;
-				font-weight: 400;
-				line-height: 1.6;
+				margin-bottom: 2rem;
+				line-height: 1.7;
 			}
 
 			.hero-buttons {
 				display: flex;
-				gap: 1.5rem;
+				gap: 1rem;
 				flex-wrap: wrap;
 			}
 
 			.btn {
-				padding: 0.875rem 1.75rem;
-				border-radius: 0.375rem;
-				font-size: 1rem;
+				padding: 0.75rem 1.5rem;
+				border-radius: 0.25rem;
+				font-size: 0.95rem;
 				font-weight: 600;
 				text-decoration: none;
-				transition: all 0.3s ease;
+				transition: all 0.2s ease;
 				cursor: pointer;
 				border: none;
 			}
@@ -78,18 +91,16 @@ const posts = (await getCollection('blog'))
 
 			.btn-primary:hover {
 				background-color: #50fa7b;
-				transform: translateY(-2px);
 			}
 
 			.btn-secondary {
 				background-color: transparent;
 				color: #8be9fd;
-				border: 2px solid #8be9fd;
+				border: 1px solid #8be9fd;
 			}
 
 			.btn-secondary:hover {
 				background-color: rgba(139, 233, 253, 0.1);
-				transform: translateY(-2px);
 			}
 
 			/* Articles Section */
@@ -98,34 +109,26 @@ const posts = (await getCollection('blog'))
 			}
 
 			.articles-header h2 {
-				font-family: Georgia, 'Times New Roman', serif;
-				font-size: 2rem;
+				font-family: 'Georgia', 'Times New Roman', serif;
+				font-size: 1.75rem;
 				font-weight: 700;
-				margin: 0 0 0.5rem 0;
+				margin-bottom: 2rem;
 				color: #f8f8f2;
 			}
 
-			.articles-header .divider {
-				width: 50px;
-				height: 3px;
-				background-color: #8be9fd;
-				margin-bottom: 2rem;
-			}
-
-			/* Article Cards */
-			.articles-grid {
+			/* Article Cards - Medium Style */
+			.articles-list {
 				display: grid;
-				gap: 3rem;
+				gap: 0;
 			}
 
 			.article-card {
+				display: grid;
+				grid-template-columns: 1fr 180px;
+				gap: 1.5rem;
 				padding: 2rem 0;
 				border-bottom: 1px solid #44475a;
 				transition: all 0.3s ease;
-			}
-
-			.article-card:last-child {
-				border-bottom: none;
 			}
 
 			.article-card:hover {
@@ -138,39 +141,48 @@ const posts = (await getCollection('blog'))
 			.article-card a {
 				text-decoration: none;
 				color: inherit;
-				display: block;
+			}
+
+			.article-content {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+			}
+
+			.article-header {
+				margin-bottom: 0.75rem;
 			}
 
 			.article-meta {
 				display: flex;
 				align-items: center;
-				gap: 0.75rem;
-				margin-bottom: 0.75rem;
-				font-size: 0.95rem;
+				gap: 0.5rem;
+				font-size: 0.85rem;
 				color: #6272a4;
+				margin-bottom: 0.5rem;
+				flex-wrap: wrap;
 			}
 
-			.article-meta-tag {
+			.article-meta-author {
 				color: #8be9fd;
 				font-weight: 600;
-				font-size: 0.875rem;
 			}
 
-			.article-meta-dot {
-				width: 3px;
-				height: 3px;
+			.article-meta-separator {
+				width: 2px;
+				height: 2px;
 				background-color: #50fa7b;
 				border-radius: 50%;
 			}
 
 			.article-title {
-				font-family: Georgia, 'Times New Roman', serif;
-				font-size: 1.75rem;
+				font-family: 'Georgia', 'Times New Roman', serif;
+				font-size: 1.5rem;
 				font-weight: 700;
-				line-height: 1.3;
-				margin: 0.5rem 0 1rem 0;
+				line-height: 1.35;
+				margin-bottom: 0.75rem;
 				color: #f8f8f2;
-				transition: color 0.3s ease;
+				transition: color 0.2s ease;
 			}
 
 			.article-card:hover .article-title {
@@ -178,30 +190,39 @@ const posts = (await getCollection('blog'))
 			}
 
 			.article-description {
-				font-size: 1.05rem;
+				font-size: 0.95rem;
 				color: #b0b0b0;
-				margin: 0;
 				line-height: 1.6;
+				margin-bottom: 1rem;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+
+			.article-footer {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+				font-size: 0.85rem;
+				color: #6272a4;
 			}
 
 			.article-tags {
 				display: flex;
 				gap: 0.5rem;
 				flex-wrap: wrap;
-				margin-top: 1rem;
-				padding-top: 1rem;
 			}
 
 			.tag {
-				display: inline-block;
 				background-color: rgba(139, 233, 253, 0.1);
 				color: #8be9fd;
 				padding: 0.25rem 0.75rem;
-				border-radius: 9999px;
+				border-radius: 12px;
 				font-size: 0.8rem;
 				font-weight: 500;
-				border: 1px solid rgba(139, 233, 253, 0.3);
-				transition: all 0.3s ease;
+				border: 1px solid rgba(139, 233, 253, 0.2);
+				transition: all 0.2s ease;
 			}
 
 			.tag:hover {
@@ -209,21 +230,100 @@ const posts = (await getCollection('blog'))
 				border-color: #8be9fd;
 			}
 
+			/* Article Thumbnail */
+			.article-thumbnail {
+				width: 180px;
+				height: 140px;
+				background: linear-gradient(135deg, rgba(139, 233, 253, 0.1), rgba(80, 250, 123, 0.05));
+				border-radius: 0.25rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 2.5rem;
+				flex-shrink: 0;
+			}
+
+			/* Sidebar */
+			.sidebar {
+				display: flex;
+				flex-direction: column;
+				gap: 3rem;
+				position: sticky;
+				top: 100px;
+				height: fit-content;
+			}
+
+			.sidebar-widget {
+				padding: 1.5rem;
+				background-color: rgba(139, 233, 253, 0.05);
+				border: 1px solid #44475a;
+				border-radius: 0.25rem;
+			}
+
+			.sidebar-widget h3 {
+				font-size: 0.95rem;
+				font-weight: 600;
+				color: #f8f8f2;
+				margin-bottom: 1rem;
+			}
+
+			.sidebar-widget p {
+				font-size: 0.9rem;
+				color: #b0b0b0;
+				line-height: 1.6;
+			}
+
+			.btn-follow {
+				display: inline-block;
+				background-color: transparent;
+				color: #8be9fd;
+				border: 1px solid #8be9fd;
+				padding: 0.5rem 1.25rem;
+				border-radius: 0.25rem;
+				font-size: 0.9rem;
+				font-weight: 600;
+				text-decoration: none;
+				transition: all 0.2s ease;
+				margin-top: 1rem;
+				width: 100%;
+				text-align: center;
+			}
+
+			.btn-follow:hover {
+				background-color: rgba(139, 233, 253, 0.1);
+			}
+
+			@media (max-width: 1024px) {
+				main {
+					grid-template-columns: 1fr;
+					gap: 2rem;
+				}
+
+				.sidebar {
+					position: static;
+				}
+			}
+
 			@media (max-width: 640px) {
 				main {
-					padding: 2rem 1rem;
+					padding: 1.5rem 1rem;
 				}
 
 				.hero h1 {
-					font-size: 2.5rem;
+					font-size: 2rem;
+				}
+
+				.article-card {
+					grid-template-columns: 1fr;
+				}
+
+				.article-thumbnail {
+					width: 100%;
+					height: 200px;
 				}
 
 				.article-title {
-					font-size: 1.5rem;
-				}
-
-				.articles-header h2 {
-					font-size: 1.5rem;
+					font-size: 1.25rem;
 				}
 			}
 		</style>
@@ -231,48 +331,83 @@ const posts = (await getCollection('blog'))
 	<body>
 		<Header />
 		<main>
-			<!-- Hero Section -->
-			<section class="hero">
-				<h1>{SITE_TITLE}</h1>
-				<p>{SITE_DESCRIPTION}</p>
-				<div class="hero-buttons">
-					<a href="/blog" class="btn btn-primary">Ver Todos os Artigos</a>
-					<a href="/tags" class="btn btn-secondary">Explorar Tags</a>
-				</div>
-			</section>
+			<!-- Main Content -->
+			<div class="content">
+				<!-- Hero Section -->
+				<section class="hero">
+					<h1>{SITE_TITLE}</h1>
+					<p>{SITE_DESCRIPTION}</p>
+					<div class="hero-buttons">
+						<a href="/blog" class="btn btn-primary">Ver Todos os Artigos</a>
+						<a href="/tags" class="btn btn-secondary">Explorar Tags</a>
+					</div>
+				</section>
 
-			<!-- Articles Section -->
-			<section>
-				<div class="articles-header">
-					<h2>Artigos Recentes</h2>
-					<div class="divider"></div>
-				</div>
+				<!-- Articles Section -->
+				<section>
+					<div class="articles-header">
+						<h2>Artigos Recentes</h2>
+					</div>
 
-				<div class="articles-grid">
-					{posts.map((post) => (
-						<article class="article-card">
-							<a href={`/blog/${post.id}/`}>
-								<div class="article-meta">
-									<span class="article-meta-tag">{post.data.tags?.[0] || 'ARTIGO'}</span>
-									<span class="article-meta-dot"></span>
-									<time>
-										<FormattedDate date={post.data.pubDate} />
-									</time>
-								</div>
-								<h3 class="article-title">{post.data.title}</h3>
-								<p class="article-description">{post.data.description}</p>
-								{post.data.tags && post.data.tags.length > 0 && (
-									<div class="article-tags">
-										{post.data.tags.slice(0, 3).map((tag) => (
-											<span class="tag">{tag}</span>
-										))}
+					<div class="articles-list">
+						{posts.map((post) => (
+							<article class="article-card">
+								<div>
+									<div class="article-content">
+										<div>
+											<div class="article-header">
+												<div class="article-meta">
+													<span class="article-meta-author">{SITE_AUTHOR}</span>
+													<span class="article-meta-separator"></span>
+													<time>
+														<FormattedDate date={post.data.pubDate} />
+													</time>
+													<span class="article-meta-separator"></span>
+													<span>{post.data.tags?.[0] || 'Artigo'}</span>
+												</div>
+											</div>
+											<h3 class="article-title">
+												<a href={`/blog/${post.id}/`}>{post.data.title}</a>
+											</h3>
+											<p class="article-description">{post.data.description}</p>
+										</div>
+
+										<div>
+											{post.data.tags && post.data.tags.length > 0 && (
+												<div class="article-tags">
+													{post.data.tags.slice(0, 2).map((tag) => (
+														<span class="tag">{tag}</span>
+													))}
+												</div>
+											)}
+										</div>
 									</div>
-								)}
-							</a>
-						</article>
-					))}
+								</div>
+
+								<a href={`/blog/${post.id}/`} class="article-thumbnail">
+									📰
+								</a>
+							</article>
+						))}
+					</div>
+				</section>
+			</div>
+
+			<!-- Sidebar -->
+			<aside class="sidebar">
+				<div class="sidebar-widget">
+					<h3>Sobre o Autor</h3>
+					<p>{SITE_AUTHOR}</p>
+					<p style="font-size: 0.85rem; margin-top: 0.5rem;">Análises técnicas sobre segurança, vulnerabilidades e engenharia reversa.</p>
+					<a href="/about" class="btn-follow">Saiba Mais</a>
 				</div>
-			</section>
+
+				<div class="sidebar-widget">
+					<h3>Categorias</h3>
+					<p>Explore artigos por tópico</p>
+					<a href="/tags" class="btn-follow">Ver Tags</a>
+				</div>
+			</aside>
 		</main>
 		<Footer />
 	</body>
