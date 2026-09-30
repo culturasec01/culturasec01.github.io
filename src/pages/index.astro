@@ -1,11 +1,12 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import FormattedDate from '../components/FormattedDate.astro';
-import { SITE_DESCRIPTION, SITE_TITLE, SITE_AUTHOR } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
-const posts = (await getCollection('blog'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const allPosts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 ---
 
 <!doctype html>
@@ -13,137 +14,75 @@ const posts = (await getCollection('blog'))
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
-			* {
-				margin: 0;
-				padding: 0;
-				box-sizing: border-box;
-			}
-
 			body {
 				background-color: #282a36;
 				color: #f8f8f2;
-				font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-				line-height: 1.6;
 			}
 
 			main {
-				max-width: 700px;
+				max-width: 1000px;
 				margin: 0 auto;
 				padding: 3rem 2rem;
 			}
 
-			/* Hero Section */
-			.hero {
-				margin-bottom: 4rem;
-				padding-bottom: 3rem;
-				border-bottom: 1px solid #44475a;
-			}
-
-			.hero h1 {
+			h1 {
 				font-family: 'Georgia', 'Times New Roman', serif;
-				font-size: 3rem;
+				font-size: 2.5rem;
 				font-weight: 700;
-				line-height: 1.15;
-				margin-bottom: 1.5rem;
+				margin-bottom: 3rem;
 				color: #f8f8f2;
-				letter-spacing: -0.02em;
 			}
 
-			.hero p {
-				font-size: 1.1rem;
-				color: #b0b0b0;
-				margin-bottom: 2rem;
-				line-height: 1.7;
-			}
-
-			.hero-buttons {
-				display: flex;
-				gap: 1rem;
-				flex-wrap: wrap;
-			}
-
-			.btn {
-				padding: 0.75rem 1.5rem;
-				border-radius: 0.25rem;
-				font-size: 0.95rem;
-				font-weight: 600;
-				text-decoration: none;
-				transition: all 0.2s ease;
-				cursor: pointer;
-				border: none;
-			}
-
-			.btn-primary {
-				background-color: #8be9fd;
-				color: #282a36;
-			}
-
-			.btn-primary:hover {
-				background-color: #50fa7b;
-			}
-
-			.btn-secondary {
-				background-color: transparent;
-				color: #8be9fd;
-				border: 1px solid #8be9fd;
-			}
-
-			.btn-secondary:hover {
-				background-color: rgba(139, 233, 253, 0.1);
-			}
-
-			/* Articles Feed */
-			.articles-list {
+			.articles-grid {
 				display: grid;
-				gap: 0;
+				grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+				gap: 2rem;
 			}
 
 			.article-card {
-				padding: 2rem 0;
-				border-bottom: 1px solid #44475a;
+				background-color: #21222c;
+				border: 1px solid #44475a;
+				border-radius: 0.5rem;
+				overflow: hidden;
 				transition: all 0.3s ease;
+				cursor: pointer;
 			}
 
 			.article-card:hover {
-				padding-left: 1rem;
-				padding-right: 1rem;
-				margin-left: -1rem;
-				margin-right: -1rem;
+				border-color: #8be9fd;
+				transform: translateY(-4px);
+				box-shadow: 0 10px 20px rgba(139, 233, 253, 0.1);
 			}
 
 			.article-card a {
+				display: block;
 				text-decoration: none;
 				color: inherit;
-			}
-
-			.article-meta {
+				height: 100%;
 				display: flex;
-				align-items: center;
-				gap: 0.5rem;
-				font-size: 0.85rem;
-				color: #6272a4;
-				margin-bottom: 0.75rem;
-				flex-wrap: wrap;
+				flex-direction: column;
 			}
 
-			.article-meta-author {
-				color: #8be9fd;
-				font-weight: 600;
+			.article-image {
+				width: 100%;
+				height: 180px;
+				object-fit: cover;
+				background-color: #44475a;
 			}
 
-			.article-meta-separator {
-				width: 2px;
-				height: 2px;
-				background-color: #50fa7b;
-				border-radius: 50%;
+			.article-content {
+				padding: 1.5rem;
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
 			}
 
 			.article-title {
 				font-family: 'Georgia', 'Times New Roman', serif;
-				font-size: 1.75rem;
+				font-size: 1.25rem;
 				font-weight: 700;
-				line-height: 1.35;
-				margin-bottom: 0.75rem;
+				line-height: 1.4;
 				color: #f8f8f2;
 				transition: color 0.2s ease;
 			}
@@ -152,84 +91,42 @@ const posts = (await getCollection('blog'))
 				color: #8be9fd;
 			}
 
-			.article-description {
-				font-size: 0.95rem;
-				color: #b0b0b0;
-				line-height: 1.6;
-				margin-bottom: 1rem;
-				display: -webkit-box;
-				-webkit-line-clamp: 2;
-				-webkit-box-orient: vertical;
-				overflow: hidden;
-			}
-
-			.article-tags {
-				display: flex;
-				gap: 0.5rem;
-				flex-wrap: wrap;
-			}
-
-			.tag {
-				background-color: rgba(139, 233, 253, 0.1);
-				color: #8be9fd;
-				padding: 0.25rem 0.75rem;
-				border-radius: 12px;
-				font-size: 0.8rem;
-				font-weight: 500;
-				border: 1px solid rgba(139, 233, 253, 0.2);
-				transition: all 0.2s ease;
-			}
-
-			.tag:hover {
-				background-color: rgba(139, 233, 253, 0.2);
-				border-color: #8be9fd;
-			}
-
 			@media (max-width: 640px) {
 				main {
 					padding: 1.5rem 1rem;
 				}
 
-				.hero h1 {
-					font-size: 2rem;
+				h1 {
+					font-size: 1.75rem;
+					margin-bottom: 2rem;
 				}
 
-				.article-title {
-					font-size: 1.5rem;
+				.articles-grid {
+					grid-template-columns: 1fr;
 				}
 			}
 		</style>
 	</head>
 	<body>
 		<main>
-			<!-- Hero Section -->
-			<section class="hero">
-				<h1>{SITE_TITLE}</h1>
-				<p>{SITE_DESCRIPTION}</p>
-				<div class="hero-buttons">
-					<a href="/blog" class="btn btn-primary">Todos os Artigos</a>
-					<a href="/tags" class="btn btn-secondary">Tags</a>
-				</div>
-			</section>
+			<h1>{SITE_TITLE}</h1>
 
-			<!-- Feed de Artigos -->
-			<div class="articles-list">
-				{posts.map((post) => (
+			<div class="articles-grid">
+				{allPosts.map((post) => (
 					<article class="article-card">
 						<a href={`/blog/${post.id}/`}>
-							<div class="article-meta">
-								<span class="article-meta-author">{SITE_AUTHOR}</span>
-								<span class="article-meta-separator"></span>
-								<time><FormattedDate date={post.data.pubDate} /></time>
-								{post.data.tags && post.data.tags[0] && (
-									<>
-										<span class="article-meta-separator"></span>
-										<span>{post.data.tags[0]}</span>
-									</>
-								)}
+							{post.data.heroImage && (
+								<Image
+									src={post.data.heroImage}
+									alt={post.data.title}
+									width={280}
+									height={180}
+									class="article-image"
+								/>
+							)}
+							<div class="article-content">
+								<h2 class="article-title">{post.data.title}</h2>
 							</div>
-							<h2 class="article-title">{post.data.title}</h2>
-							<p class="article-description">{post.data.description}</p>
 						</a>
 					</article>
 				))}
