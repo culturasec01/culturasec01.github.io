@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { SITE_TITLE, TAGS } from '../../consts';
+
+const posts = await getCollection('blog');
+
+const tagsWithCounts = TAGS.map((tag) => ({
+	...tag,
+	count: posts.filter((post) => post.data.tags?.includes(tag.name)).length,
+}));
+
+const sortedTags = tagsWithCounts.sort((a, b) => b.count - a.count);
+---
+
+<!doctype html>
+<html lang="pt-BR">
+	<head>
+		<BaseHead title={`Tags - ${SITE_TITLE}`} description="Explore artigos por categoria" />
+	</head>
+	<body class="bg-white dark:bg-gray-950">
+		<Header />
+		<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+			<h1 class="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
+				Tags
+			</h1>
+			<p class="text-lg text-gray-600 dark:text-gray-400 mb-12">
+				Explore artigos agrupados por tópicos
+			</p>
+
+			<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+				{sortedTags.map((tag) => (
+					<a href={`/tags/${tag.name.toLowerCase().replace(/\s+/g, '-')}/`} class="group border border-gray-200 dark:border-gray-800 rounded-lg p-6 hover:shadow-lg hover:border-blue-400 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/20 transition">
+						<h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
+							{tag.name}
+						</h3>
+						<p class="text-gray-600 dark:text-gray-400 mb-4">
+							{tag.description}
+						</p>
+						<span class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm px-3 py-1 rounded-full font-semibold">
+							{tag.count} {tag.count === 1 ? 'artigo' : 'artigos'}
+						</span>
+					</a>
+				))}
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
