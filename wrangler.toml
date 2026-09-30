@@ -1,9 +1,0 @@
-name = "artigos"
-type = "javascript"
-
-[build]
-command = "npm run build"
-cwd = ""
-
-[env.production]
-name = "artigos-prod"
