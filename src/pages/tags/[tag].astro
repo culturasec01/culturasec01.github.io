@@ -1,8 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
-import Header from '../../components/Header.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { SITE_TITLE, TAGS } from '../../consts';
 
@@ -32,7 +30,6 @@ const tagInfo = TAGS.find((t) => t.name === tag);
 		<BaseHead title={`${tag} - ${SITE_TITLE}`} description={`Artigos sobre ${tag}`} />
 	</head>
 	<body class="bg-white dark:bg-gray-950">
-		<Header />
 		<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 			<div class="mb-12">
 				<a href="/tags" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mb-4 inline-block">
@@ -88,6 +85,5 @@ const tagInfo = TAGS.find((t) => t.name === tag);
 				</div>
 			)}
 		</main>
-		<Footer />
 	</body>
 </html>

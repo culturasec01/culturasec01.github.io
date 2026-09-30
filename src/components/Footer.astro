@@ -4,13 +4,13 @@ import { SITE_AUTHOR } from '../consts';
 const today = new Date();
 ---
 
-<footer class="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-16">
-	<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
-		<p class="text-gray-600 dark:text-gray-400">
+<footer style="background-color: #21222c; border-top: 1px solid #44475a; margin-top: 4rem; padding: 3rem 2rem;">
+	<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+		<p style="color: #f8f8f2; font-size: 1rem; margin-bottom: 0.5rem;">
 			&copy; {today.getFullYear()} {SITE_AUTHOR}. Todos os direitos reservados.
 		</p>
-		<p class="text-gray-500 dark:text-gray-500 text-sm mt-2">
-			Feito com <a href="https://astro.build" class="hover:text-blue-600 dark:hover:text-blue-400">Astro</a> e hospedado em <a href="https://pages.cloudflare.com" class="hover:text-blue-600 dark:hover:text-blue-400">Cloudflare Pages</a>
+		<p style="color: #8be9fd; font-size: 0.95rem;">
+			Feito com <a href="https://astro.build" style="color: #8be9fd; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#50fa7b'" onmouseout="this.style.color='#8be9fd'">Astro</a> e hospedado em <a href="https://pages.cloudflare.com" style="color: #8be9fd; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#50fa7b'" onmouseout="this.style.color='#8be9fd'">Cloudflare Pages</a>
 		</p>
 	</div>
 </footer>

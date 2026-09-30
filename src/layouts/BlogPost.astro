@@ -2,13 +2,11 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
 <html lang="pt-BR">
@@ -16,10 +14,13 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 		<BaseHead title={title} description={description} />
 		<style is:global>
 			.prose {
-				color: #f8f8f2;
+				color: #f8f8f2 !important;
+			}
+			.prose * {
+				color: #f8f8f2 !important;
 			}
 			.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-				color: #f8f8f2;
+				color: #f8f8f2 !important;
 				font-weight: 700;
 				margin-bottom: 1rem;
 				margin-top: 1.5rem;
@@ -66,17 +67,42 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 			.prose pre {
 				background-color: #21222c;
 				color: #f8f8f2;
-				padding: 1rem;
+				padding: 0;
 				border-radius: 0.5rem;
 				overflow-x: auto;
 				margin-bottom: 1rem;
 				border: 1px solid #44475a;
+				position: relative;
 			}
+
+			.prose pre[data-language]::before {
+				content: attr(data-language);
+				position: absolute;
+				top: 0;
+				right: 0;
+				background-color: #44475a;
+				color: #8be9fd;
+				padding: 0.25rem 0.75rem;
+				font-size: 0.75rem;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+				border-radius: 0 0.5rem 0 0;
+				border-left: 1px solid #44475a;
+				border-bottom: 1px solid #44475a;
+			}
+
 			.prose pre code {
-				background-color: transparent;
-				color: #f8f8f2;
-				padding: 0;
+				background-color: transparent !important;
+				padding: 1rem;
 				border-radius: 0;
+				display: block;
+				font-size: 0.95em;
+				line-height: 1.6;
+			}
+
+			.prose pre code span {
+				color: inherit !important;
 			}
 			.prose a {
 				color: #8be9fd;
@@ -116,7 +142,6 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 	</head>
 
 	<body style="background-color: #282a36; color: #f8f8f2;">
-		<Header />
 		<main style="max-width: 800px; margin: 0 auto; padding: 3rem 2rem;">
 			<article>
 				<div style="margin-bottom: 2rem;">
@@ -135,29 +160,16 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 					<h1 style="font-family: Georgia, serif; font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: #f8f8f2;">
 						{title}
 					</h1>
-					<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-						<div>
-							<time style="color: #6272a4;">
-								<FormattedDate date={pubDate} />
-							</time>
-							{
-								updatedDate && (
-									<div style="font-size: 0.875rem; color: #6272a4; font-style: italic;">
-										Atualizado em <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
-						{tags && tags.length > 0 && (
-							<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-								{tags.map((tag) => (
-									<a href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}/`} style="display: inline-block; background-color: rgba(139, 233, 253, 0.1); color: #8be9fd; font-size: 0.875rem; padding: 0.5rem 0.75rem; border-radius: 9999px; border: 1px solid rgba(139, 233, 253, 0.3); text-decoration: none; transition: all 0.2s;">
-										{tag}
-									</a>
-								))}
+					<time style="color: #6272a4;">
+						<FormattedDate date={pubDate} />
+					</time>
+					{
+						updatedDate && (
+							<div style="font-size: 0.875rem; color: #6272a4; font-style: italic; margin-top: 0.5rem;">
+								Atualizado em <FormattedDate date={updatedDate} />
 							</div>
-						)}
-					</div>
+						)
+					}
 				</header>
 
 				<div class="prose" style="margin-bottom: 3rem;">
@@ -165,6 +177,5 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 				</div>
 			</article>
 		</main>
-		<Footer />
 	</body>
 </html>

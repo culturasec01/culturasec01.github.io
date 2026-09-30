@@ -1,7 +1,5 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
 import { SITE_AUTHOR, SITE_TITLE } from '../consts';
 ---
 
@@ -11,7 +9,6 @@ import { SITE_AUTHOR, SITE_TITLE } from '../consts';
 		<BaseHead title={`Sobre - ${SITE_TITLE}`} description="Sobre o autor e este site" />
 	</head>
 	<body class="bg-white dark:bg-gray-950">
-		<Header />
 		<main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 			<article>
 				<header class="mb-12 pb-8 border-b border-gray-200 dark:border-gray-800">
@@ -110,6 +107,5 @@ import { SITE_AUTHOR, SITE_TITLE } from '../consts';
 				</div>
 			</article>
 		</main>
-		<Footer />
 	</body>
 </html>

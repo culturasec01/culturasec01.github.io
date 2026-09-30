@@ -1,4 +1,4 @@
-export const SITE_TITLE = 'Artigos Técnicos';
+export const SITE_TITLE = 'Maximiliano Tarigo Artigos';
 export const SITE_DESCRIPTION = 'Análises, vulnerabilidades, engenharia reversa e segurança de aplicações';
 export const SITE_AUTHOR = 'Maximiliano Tarigo';
 export const SITE_URL = 'https://artigos.pages.dev';

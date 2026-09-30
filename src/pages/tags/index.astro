@@ -1,8 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
-import Header from '../../components/Header.astro';
 import { SITE_TITLE, TAGS } from '../../consts';
 
 const posts = await getCollection('blog');
@@ -21,7 +19,6 @@ const sortedTags = tagsWithCounts.sort((a, b) => b.count - a.count);
 		<BaseHead title={`Tags - ${SITE_TITLE}`} description="Explore artigos por categoria" />
 	</head>
 	<body class="bg-white dark:bg-gray-950">
-		<Header />
 		<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 			<h1 class="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
 				Tags
@@ -46,6 +43,5 @@ const sortedTags = tagsWithCounts.sort((a, b) => b.count - a.count);
 				))}
 			</div>
 		</main>
-		<Footer />
 	</body>
 </html>

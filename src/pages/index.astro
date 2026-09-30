@@ -1,8 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_AUTHOR } from '../consts';
 
@@ -203,7 +201,6 @@ const posts = (await getCollection('blog'))
 		</style>
 	</head>
 	<body>
-		<Header />
 		<main>
 			<!-- Hero Section -->
 			<section class="hero">
@@ -233,18 +230,10 @@ const posts = (await getCollection('blog'))
 							</div>
 							<h2 class="article-title">{post.data.title}</h2>
 							<p class="article-description">{post.data.description}</p>
-							{post.data.tags && post.data.tags.length > 0 && (
-								<div class="article-tags">
-									{post.data.tags.map((tag) => (
-										<span class="tag">{tag}</span>
-									))}
-								</div>
-							)}
 						</a>
 					</article>
 				))}
 			</div>
 		</main>
-		<Footer />
 	</body>
 </html>
