@@ -16,105 +16,142 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 		<BaseHead title={title} description={description} />
 		<style is:global>
 			.prose {
-				color: rgb(55 65 81);
-			}
-			.dark .prose {
-				color: rgb(209 213 219);
+				color: #f8f8f2;
 			}
 			.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-				@apply font-bold mb-4 mt-6 text-gray-900 dark:text-white;
+				color: #f8f8f2;
+				font-weight: 700;
+				margin-bottom: 1rem;
+				margin-top: 1.5rem;
 			}
 			.prose h1 {
-				@apply text-3xl;
+				font-size: 2rem;
 			}
 			.prose h2 {
-				@apply text-2xl;
+				font-size: 1.75rem;
+				border-bottom: 2px solid #44475a;
+				padding-bottom: 0.5rem;
 			}
 			.prose h3 {
-				@apply text-xl;
+				font-size: 1.5rem;
 			}
 			.prose p {
-				@apply mb-4 leading-relaxed;
+				margin-bottom: 1rem;
+				line-height: 1.7;
+				color: #f8f8f2;
 			}
 			.prose strong {
-				@apply font-bold;
+				font-weight: 700;
+				color: #f8f8f2;
 			}
 			.prose em {
-				@apply italic;
+				font-style: italic;
 			}
 			.prose ul, .prose ol {
-				@apply mb-4 ml-6;
+				margin-bottom: 1rem;
+				margin-left: 1.5rem;
 			}
 			.prose li {
-				@apply mb-2;
+				margin-bottom: 0.5rem;
+				color: #f8f8f2;
 			}
 			.prose code {
-				@apply bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded font-mono text-sm;
+				background-color: #44475a;
+				color: #ff79c6;
+				padding: 0.25rem 0.5rem;
+				border-radius: 0.25rem;
+				font-family: monospace;
+				font-size: 0.9em;
 			}
 			.prose pre {
-				@apply bg-gray-900 dark:bg-gray-950 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4;
+				background-color: #21222c;
+				color: #f8f8f2;
+				padding: 1rem;
+				border-radius: 0.5rem;
+				overflow-x: auto;
+				margin-bottom: 1rem;
+				border: 1px solid #44475a;
 			}
 			.prose pre code {
-				@apply bg-transparent px-0 py-0;
+				background-color: transparent;
+				color: #f8f8f2;
+				padding: 0;
+				border-radius: 0;
 			}
 			.prose a {
-				@apply text-blue-600 dark:text-blue-400 hover:underline;
+				color: #8be9fd;
+				text-decoration: underline;
+			}
+			.prose a:hover {
+				color: #50fa7b;
 			}
 			.prose blockquote {
-				@apply border-l-4 border-blue-500 pl-4 italic text-gray-600 dark:text-gray-400 my-4;
+				border-left: 4px solid #8be9fd;
+				padding-left: 1rem;
+				color: #6272a4;
+				font-style: italic;
+				margin: 1rem 0;
 			}
 			.prose img {
-				@apply rounded-lg max-w-full h-auto;
+				border-radius: 0.5rem;
+				max-width: 100%;
+				height: auto;
 			}
 			.prose table {
-				@apply w-full border-collapse mb-4;
+				width: 100%;
+				border-collapse: collapse;
+				margin-bottom: 1rem;
 			}
 			.prose th, .prose td {
-				@apply border border-gray-300 dark:border-gray-700 px-4 py-2 text-left;
+				border: 1px solid #44475a;
+				padding: 0.75rem;
+				text-align: left;
+				color: #f8f8f2;
 			}
 			.prose th {
-				@apply bg-gray-100 dark:bg-gray-800 font-bold;
+				background-color: #44475a;
+				font-weight: 700;
 			}
 		</style>
 	</head>
 
-	<body class="bg-white dark:bg-gray-950">
+	<body style="background-color: #282a36; color: #f8f8f2;">
 		<Header />
-		<main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+		<main style="max-width: 800px; margin: 0 auto; padding: 3rem 2rem;">
 			<article>
-				<div class="mb-8">
-					<a href="/blog" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mb-4 inline-block">
+				<div style="margin-bottom: 2rem;">
+					<a href="/blog" style="color: #8be9fd; text-decoration: none; display: inline-block;">
 						← Voltar para Artigos
 					</a>
 				</div>
 
 				{heroImage && (
-					<div class="mb-8">
-						<Image width={800} height={400} src={heroImage} alt="" class="rounded-lg shadow-lg" />
+					<div style="margin-bottom: 2rem;">
+						<Image width={800} height={400} src={heroImage} alt="" style="border-radius: 0.5rem; max-width: 100%; height: auto;" />
 					</div>
 				)}
 
-				<header class="mb-8 pb-8 border-b border-gray-200 dark:border-gray-800">
-					<h1 class="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
+				<header style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #44475a;">
+					<h1 style="font-family: Georgia, serif; font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: #f8f8f2;">
 						{title}
 					</h1>
-					<div class="flex items-center justify-between flex-wrap gap-4">
+					<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
 						<div>
-							<time class="text-gray-600 dark:text-gray-400">
+							<time style="color: #6272a4;">
 								<FormattedDate date={pubDate} />
 							</time>
 							{
 								updatedDate && (
-									<div class="text-sm text-gray-500 dark:text-gray-500 italic">
+									<div style="font-size: 0.875rem; color: #6272a4; font-style: italic;">
 										Atualizado em <FormattedDate date={updatedDate} />
 									</div>
 								)
 							}
 						</div>
 						{tags && tags.length > 0 && (
-							<div class="flex gap-2 flex-wrap">
+							<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
 								{tags.map((tag) => (
-									<a href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}/`} class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm px-3 py-1 rounded-full hover:bg-blue-200 dark:hover:bg-blue-800 transition">
+									<a href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}/`} style="display: inline-block; background-color: rgba(139, 233, 253, 0.1); color: #8be9fd; font-size: 0.875rem; padding: 0.5rem 0.75rem; border-radius: 9999px; border: 1px solid rgba(139, 233, 253, 0.3); text-decoration: none; transition: all 0.2s;">
 										{tag}
 									</a>
 								))}
@@ -123,7 +160,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 					</div>
 				</header>
 
-				<div class="prose dark:prose-invert max-w-none mb-12">
+				<div class="prose" style="margin-bottom: 3rem;">
 					<slot />
 				</div>
 			</article>
