@@ -16,90 +16,255 @@ const posts = (await getCollection('blog'))
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
-			.hero-gradient {
-				background: linear-gradient(135deg, #8be9fd 0%, #50fa7b 100%);
-				-webkit-background-clip: text;
-				-webkit-text-fill-color: transparent;
-				background-clip: text;
+			body {
+				background-color: #282a36;
+				color: #f8f8f2;
+				font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+				line-height: 1.6;
 			}
 
-			.card-gradient {
-				background: linear-gradient(135deg, rgba(139, 233, 253, 0.05) 0%, rgba(80, 250, 123, 0.05) 100%);
+			main {
+				max-width: 700px;
+				margin: 0 auto;
+				padding: 4rem 2rem;
 			}
 
-			.card-hover {
-				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			/* Hero Section */
+			.hero {
+				margin-bottom: 6rem;
+				padding-bottom: 4rem;
+				border-bottom: 1px solid #44475a;
 			}
 
-			.card-hover:hover {
-				transform: translateY(-8px);
-				box-shadow: 0 20px 50px rgba(139, 233, 253, 0.1);
+			.hero h1 {
+				font-family: Georgia, 'Times New Roman', serif;
+				font-size: 3.5rem;
+				font-weight: 700;
+				line-height: 1.1;
+				margin: 0 0 1rem 0;
+				color: #f8f8f2;
+				letter-spacing: -0.02em;
+			}
+
+			.hero p {
+				font-size: 1.25rem;
+				color: #b0b0b0;
+				margin: 0 0 2rem 0;
+				font-weight: 400;
+				line-height: 1.6;
+			}
+
+			.hero-buttons {
+				display: flex;
+				gap: 1.5rem;
+				flex-wrap: wrap;
+			}
+
+			.btn {
+				padding: 0.875rem 1.75rem;
+				border-radius: 0.375rem;
+				font-size: 1rem;
+				font-weight: 600;
+				text-decoration: none;
+				transition: all 0.3s ease;
+				cursor: pointer;
+				border: none;
+			}
+
+			.btn-primary {
+				background-color: #8be9fd;
+				color: #282a36;
+			}
+
+			.btn-primary:hover {
+				background-color: #50fa7b;
+				transform: translateY(-2px);
+			}
+
+			.btn-secondary {
+				background-color: transparent;
+				color: #8be9fd;
+				border: 2px solid #8be9fd;
+			}
+
+			.btn-secondary:hover {
+				background-color: rgba(139, 233, 253, 0.1);
+				transform: translateY(-2px);
+			}
+
+			/* Articles Section */
+			.articles-header {
+				margin-bottom: 3rem;
+			}
+
+			.articles-header h2 {
+				font-family: Georgia, 'Times New Roman', serif;
+				font-size: 2rem;
+				font-weight: 700;
+				margin: 0 0 0.5rem 0;
+				color: #f8f8f2;
+			}
+
+			.articles-header .divider {
+				width: 50px;
+				height: 3px;
+				background-color: #8be9fd;
+				margin-bottom: 2rem;
+			}
+
+			/* Article Cards */
+			.articles-grid {
+				display: grid;
+				gap: 3rem;
+			}
+
+			.article-card {
+				padding: 2rem 0;
+				border-bottom: 1px solid #44475a;
+				transition: all 0.3s ease;
+			}
+
+			.article-card:last-child {
+				border-bottom: none;
+			}
+
+			.article-card:hover {
+				padding-left: 1rem;
+				padding-right: 1rem;
+				margin-left: -1rem;
+				margin-right: -1rem;
+			}
+
+			.article-card a {
+				text-decoration: none;
+				color: inherit;
+				display: block;
+			}
+
+			.article-meta {
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
+				margin-bottom: 0.75rem;
+				font-size: 0.95rem;
+				color: #6272a4;
+			}
+
+			.article-meta-tag {
+				color: #8be9fd;
+				font-weight: 600;
+				font-size: 0.875rem;
+			}
+
+			.article-meta-dot {
+				width: 3px;
+				height: 3px;
+				background-color: #50fa7b;
+				border-radius: 50%;
+			}
+
+			.article-title {
+				font-family: Georgia, 'Times New Roman', serif;
+				font-size: 1.75rem;
+				font-weight: 700;
+				line-height: 1.3;
+				margin: 0.5rem 0 1rem 0;
+				color: #f8f8f2;
+				transition: color 0.3s ease;
+			}
+
+			.article-card:hover .article-title {
+				color: #8be9fd;
+			}
+
+			.article-description {
+				font-size: 1.05rem;
+				color: #b0b0b0;
+				margin: 0;
+				line-height: 1.6;
+			}
+
+			.article-tags {
+				display: flex;
+				gap: 0.5rem;
+				flex-wrap: wrap;
+				margin-top: 1rem;
+				padding-top: 1rem;
+			}
+
+			.tag {
+				display: inline-block;
+				background-color: rgba(139, 233, 253, 0.1);
+				color: #8be9fd;
+				padding: 0.25rem 0.75rem;
+				border-radius: 9999px;
+				font-size: 0.8rem;
+				font-weight: 500;
+				border: 1px solid rgba(139, 233, 253, 0.3);
+				transition: all 0.3s ease;
+			}
+
+			.tag:hover {
+				background-color: rgba(139, 233, 253, 0.2);
 				border-color: #8be9fd;
+			}
+
+			@media (max-width: 640px) {
+				main {
+					padding: 2rem 1rem;
+				}
+
+				.hero h1 {
+					font-size: 2.5rem;
+				}
+
+				.article-title {
+					font-size: 1.5rem;
+				}
+
+				.articles-header h2 {
+					font-size: 1.5rem;
+				}
 			}
 		</style>
 	</head>
-	<body style="background-color: #282a36; color: #f8f8f2;">
+	<body>
 		<Header />
-		<main style="max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem;">
+		<main>
 			<!-- Hero Section -->
-			<section style="margin-bottom: 5rem; text-align: center;">
-				<h1 class="hero-gradient" style="font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; letter-spacing: -0.02em;">
-					{SITE_TITLE}
-				</h1>
-				<p style="font-size: 1.25rem; color: #b0b0b0; margin-bottom: 2rem; line-height: 1.6;">
-					{SITE_DESCRIPTION}
-				</p>
-				<div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-					<a href="/blog" style="display: inline-block; background: linear-gradient(135deg, #8be9fd, #50fa7b); color: #282a36; font-weight: 700; padding: 0.875rem 2rem; border-radius: 0.5rem; text-decoration: none; transition: all 0.3s; box-shadow: 0 10px 25px rgba(139, 233, 253, 0.2);">
-						Ver Todos os Artigos
-					</a>
-					<a href="/tags" style="display: inline-block; background: rgba(139, 233, 253, 0.1); color: #8be9fd; font-weight: 700; padding: 0.875rem 2rem; border-radius: 0.5rem; text-decoration: none; border: 2px solid #8be9fd; transition: all 0.3s;">
-						Explorar Tags
-					</a>
+			<section class="hero">
+				<h1>{SITE_TITLE}</h1>
+				<p>{SITE_DESCRIPTION}</p>
+				<div class="hero-buttons">
+					<a href="/blog" class="btn btn-primary">Ver Todos os Artigos</a>
+					<a href="/tags" class="btn btn-secondary">Explorar Tags</a>
 				</div>
 			</section>
 
-			<!-- Featured Articles Section -->
+			<!-- Articles Section -->
 			<section>
-				<div style="margin-bottom: 3rem;">
-					<h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: #f8f8f2;">
-						Artigos Recentes
-					</h2>
-					<div style="width: 60px; height: 4px; background: linear-gradient(90deg, #8be9fd, #50fa7b); border-radius: 2px;"></div>
+				<div class="articles-header">
+					<h2>Artigos Recentes</h2>
+					<div class="divider"></div>
 				</div>
 
-				<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2rem;">
+				<div class="articles-grid">
 					{posts.map((post) => (
-						<article class="card-hover card-gradient" style="background-color: #21222c; border: 1px solid #44475a; border-radius: 0.75rem; padding: 1.5rem; cursor: pointer;">
-							<a href={`/blog/${post.id}/`} style="text-decoration: none; color: inherit; display: block;">
-								<!-- Article Header -->
-								<div style="margin-bottom: 1rem;">
-									<div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
-										<span style="font-size: 0.875rem; color: #8be9fd; font-weight: 600;">
-											{post.data.tags?.[0] || 'ARTIGO'}
-										</span>
-										<span style="width: 4px; height: 4px; background: #50fa7b; border-radius: 50%;"></span>
-										<time style="font-size: 0.875rem; color: #6272a4;">
-											<FormattedDate date={post.data.pubDate} />
-										</time>
-									</div>
-									<h3 style="font-size: 1.5rem; font-weight: 700; color: #f8f8f2; margin: 0; line-height: 1.3;">
-										{post.data.title}
-									</h3>
+						<article class="article-card">
+							<a href={`/blog/${post.id}/`}>
+								<div class="article-meta">
+									<span class="article-meta-tag">{post.data.tags?.[0] || 'ARTIGO'}</span>
+									<span class="article-meta-dot"></span>
+									<time>
+										<FormattedDate date={post.data.pubDate} />
+									</time>
 								</div>
-
-								<!-- Description -->
-								<p style="color: #b0b0b0; margin-bottom: 1.5rem; line-height: 1.6; font-size: 0.95rem;">
-									{post.data.description}
-								</p>
-
-								<!-- Tags -->
+								<h3 class="article-title">{post.data.title}</h3>
+								<p class="article-description">{post.data.description}</p>
 								{post.data.tags && post.data.tags.length > 0 && (
-									<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; padding-top: 1rem; border-top: 1px solid #44475a;">
+									<div class="article-tags">
 										{post.data.tags.slice(0, 3).map((tag) => (
-											<span style="background: rgba(139, 233, 253, 0.1); color: #8be9fd; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 9999px; border: 1px solid rgba(139, 233, 253, 0.3);">
-												{tag}
-											</span>
+											<span class="tag">{tag}</span>
 										))}
 									</div>
 								)}
